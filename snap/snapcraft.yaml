@@ -1,0 +1,34 @@
+name: nats
+version: 2.1.0
+summary: A simple, secure and high performance open source messaging system
+description: |
+  NATS.io is a simple, secure and high performance open source messaging system for cloud
+  native applications, IoT messaging, and microservices architectures.
+confinement: strict
+grade: stable
+
+apps:
+  server:
+    daemon: simple
+    command: bin/start-nats.sh
+    plugs: [network-bind]
+
+parts:
+  nats:
+    plugin: go
+    go-importpath: github.com/nats-io/nats-server/v2
+    source: https://github.com/nats-io/nats-server
+    source-tag: v2.1.0
+    source-type: git
+    build-snaps:
+    - go/1.13/stable
+    organize:
+      bin/v2: bin/nats-server
+
+  scripts:
+    plugin: dump
+    source: scripts
+    organize:
+      start-nats.sh: bin/start-nats.sh
+    stage:
+    - bin/start-nats.sh
