@@ -6,6 +6,7 @@ description: |
   native applications, IoT messaging, and microservices architectures.
 confinement: strict
 grade: stable
+architectures: [amd64, arm64]
 
 apps:
   server:
@@ -22,8 +23,17 @@ parts:
     source-type: git
     build-snaps:
     - go/1.13/stable
-    organize:
-      bin/v2: bin/nats-server
+    override-build: |
+      unset GOPATH
+      export GO111MODULE=on
+      mkdir -p "$SNAPCRAFT_PART_INSTALL"/bin
+      for arch in amd64 arm64 ; do
+        GOARCH="$arch" go build -mod vendor -o "nats-server.$arch" .
+        cp "nats-server.$arch" "$SNAPCRAFT_PART_INSTALL"/bin
+      done
+    stage:
+    - bin/nats-server.amd64
+    - bin/nats-server.arm64
 
   scripts:
     plugin: dump
