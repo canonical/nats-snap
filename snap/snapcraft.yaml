@@ -1,12 +1,11 @@
 name: nats
-version: 2.1.2
+version: 2.1.4
 summary: A simple, secure and high performance open source messaging system
 description: |
   NATS.io is a simple, secure and high performance open source messaging system for cloud
   native applications, IoT messaging, and microservices architectures.
 confinement: strict
 grade: stable
-architectures: [amd64, arm64]
 
 apps:
   server:
@@ -19,21 +18,18 @@ parts:
     plugin: go
     go-importpath: github.com/nats-io/nats-server/v2
     source: https://github.com/nats-io/nats-server
-    source-tag: v2.1.2
+    source-tag: v2.1.4
     source-type: git
     build-snaps:
-    - go/1.13/stable
+    - go/1.14/stable
     override-build: |
       unset GOPATH
       export GO111MODULE=on
       mkdir -p "$SNAPCRAFT_PART_INSTALL"/bin
-      for arch in amd64 arm64 ; do
-        GOARCH="$arch" go build -mod vendor -o "nats-server.$arch" .
-        cp "nats-server.$arch" "$SNAPCRAFT_PART_INSTALL"/bin
-      done
+      go build -mod vendor -o nats-server
+      cp nats-server "$SNAPCRAFT_PART_INSTALL"/bin
     stage:
-    - bin/nats-server.amd64
-    - bin/nats-server.arm64
+    - bin/nats-server
 
   scripts:
     plugin: dump
