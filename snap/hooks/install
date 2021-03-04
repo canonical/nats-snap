@@ -2,5 +2,7 @@
 #
 # Copyright 2020 Canonical Ltd.  All rights reserved.
 #
+snapctl stop --disable $SNAP_NAME
+. $SNAP/bin/functions.sh
+getconfig
 
-snapctl stop --disable ${SNAP_NAME}
