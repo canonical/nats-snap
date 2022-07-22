@@ -1,5 +1,5 @@
 name: nats
-version: 2.1.9
+version: 2.8.4
 summary: A simple, secure and high performance open source messaging system
 description: |
   NATS.io is a simple, secure and high performance open source messaging system for cloud
@@ -18,11 +18,11 @@ parts:
     plugin: go
     go-importpath: github.com/nats-io/nats-server/v2
     source: https://github.com/nats-io/nats-server
-    source-tag: v2.1.9
+    source-tag: v2.8.4
     source-type: git
     build-snaps:
-    # Upstream still builds their releases with 1.14
-    - go/1.14/stable
+    # Upstream still builds their releases with 1.17
+    - go/1.17/stable
     override-build: |
       unset GOPATH
       export GO111MODULE=on
