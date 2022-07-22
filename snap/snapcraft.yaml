@@ -17,7 +17,6 @@ apps:
 parts:
   nats:
     plugin: go
-    go-importpath: github.com/nats-io/nats-server/v2
     source: https://github.com/nats-io/nats-server
     source-tag: v2.8.4
     source-type: git
@@ -26,10 +25,9 @@ parts:
     - go/1.17/stable
     override-build: |
       unset GOPATH
-      export GO111MODULE=on
       mkdir -p "$SNAPCRAFT_PART_INSTALL"/bin
-      go build -mod vendor -o nats-server
-      cp nats-server "$SNAPCRAFT_PART_INSTALL"/bin
+      go mod download
+      go build -o "$SNAPCRAFT_PART_INSTALL"/bin/nats-server
     stage:
     - bin/nats-server
 
