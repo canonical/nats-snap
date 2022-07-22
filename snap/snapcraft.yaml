@@ -6,6 +6,7 @@ description: |
   native applications, IoT messaging, and microservices architectures.
 confinement: strict
 grade: stable
+base: core20
 
 apps:
   server:
